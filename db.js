@@ -23,10 +23,12 @@ const client = new CosmosClient(options)
 
     console.log(`Querying container:\n${config.container.id}`)
 
+    var startdate = Date.now() - 604800000;
+
     // query to return all children in a family
     // Including the partition key value of country in the WHERE filter results in a more efficient query
     const querySpec = {
-      query: 'SELECT * from c',
+      query: 'SELECT * from c where (c["time"] >  '+startdate+') ',
     //   parameters: [
     //     {
     //       name: '@country',

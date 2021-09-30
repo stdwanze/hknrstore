@@ -1,6 +1,8 @@
 
-var lastValue = null;
 
+
+var lastValue = null;
+var wakeUpListener = null;
 function isNotCharging(statetoSet){
     if(statetoSet.state == "charging") return false;
     return true;
@@ -17,8 +19,19 @@ function isNew(statetoSet){
 
     return true;
 }
+function checkForWakeUp(state){
 
+    if(lastValue != null){
+        if( (state.time-lastValue.time) / 60000 > 10 ) { // if 10 minutes passed
+            if(wakeUpListener != null){
+                wakeUpListener(state);
+            }
+        }
+    }
+
+}
 function consume(statetoSet){
+    checkForWakeUp(statetoSet);
     if(isNew(statetoSet))
     {
         lastValue = statetoSet;
@@ -26,7 +39,9 @@ function consume(statetoSet){
     }
     else return null;
 }
-
+function addWakeUpListener(listener){
+    wakeUpListener = listener;
+}
 module.exports = {
-    consume
+    consume, addWakeUpListener
 }
