@@ -1,4 +1,4 @@
-
+const moment = require('moment');
 const nodemailer = require("nodemailer");
 const config = require('./config');
 // async..await is not allowed in global scope, must use a wrapper
@@ -29,7 +29,8 @@ async function send(message) {
 function notify(state){
 
     var d = new Date(state.time);
-    send({ when: ""+d.getHours()+":"+d.getMinutes(), body: JSON.stringify(state)});
+    var formatable = moment(d);
+    send({ when: formatable.format("HH:mm"), body: JSON.stringify(state)});
 
 }
 

@@ -1,7 +1,7 @@
 var n = require("./notify");
 var c = require("./cache");
-
-n.notify({ time: 1626184659, other: "data"});
+var u = require("./utils");
+n.notify({ time: 1626184659000, other: "data"});
 
 
 var one = {
@@ -62,6 +62,8 @@ var two = {
     "_attachments": "attachments/",
     "_ts": 1632386425
     };
+
+  //console.log(  u. toCosmosTime(new Date(one.time)));
 // c.addWakeUpListener(console.log);
 
 // c.consume(one);
