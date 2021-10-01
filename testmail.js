@@ -1,7 +1,7 @@
 var n = require("./notify");
 var c = require("./cache");
 var u = require("./utils");
-n.notify({ time: 1626184659000, other: "data"});
+var b = require("./beautify");
 
 
 var one = {
@@ -69,3 +69,6 @@ var two = {
 // c.consume(one);
 // c.consume(two);
 
+//n.notify({ time: 1626184659000, other: "data"});
+b.beautifySet([ one,two]);
+console.log(one);

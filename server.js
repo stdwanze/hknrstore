@@ -5,6 +5,7 @@ const { queryContainer, upSert} = require('./db');
 const { toCosmosTime } = require("./utils");
 const { consume , addWakeUpListener} = require("./cache");
 const { notify } = require("./notify");
+const { beautifySet } = require('./beautify');
 polka()
     .use(json())
   .get('/states/', async (req, res) => {
@@ -19,7 +20,7 @@ polka()
   })
   .get('/states/json', async (req, res) => {
     const r = await queryContainer();
-
+    beautifySet(r);
     var result = JSON.stringify(r);
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Content-Type", "application/json");
