@@ -1,18 +1,19 @@
 const moment = require('moment');
 const nodemailer = require("nodemailer");
 const config = require('./config');
-// async..await is not allowed in global scope, must use a wrapper
-async function send(message) {
 
 
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     service: '1und1', // no need to set host or port etc.
     auth: {
         user: config.mailuser,
         pass: config.mailpw ,
     }
 });
+
+// async..await is not allowed in global scope, must use a wrapper
+async function send(message) {
+
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
@@ -25,12 +26,13 @@ async function send(message) {
   console.log("Message sent: %s", info.messageId);
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
 }
 function notify(state){
 
     var d = new Date(state.time);
     var formatable = moment(d);
-    send({ when: formatable.format("HH:mm"), body: JSON.stringify(state)});
+    send({ when: formatable.format("HH:mm"), body: JSON.stringify(state)}).catch(console.error);
 
 }
 

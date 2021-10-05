@@ -40,7 +40,7 @@ function beautifySingle(state){
 }
 function beautifySet(states){
 
-    
+
     states.forEach(element => {
         beautifySingle(element)
     });

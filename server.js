@@ -18,8 +18,10 @@ polka()
 
     res.end(result);
   })
-  .get('/states/json', async (req, res) => {
-    const r = await queryContainer();
+  .get('/states/json/:offset?', async (req, res) => {
+    let { offset } = req.params;
+    let hours = parseInt(offset) || 0;
+    const r = await queryContainer(hours);
     beautifySet(r);
     var result = JSON.stringify(r);
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,7 +32,7 @@ polka()
      var a = req.body;
      const time =  toCosmosTime(new Date(a.time))
      a.whenhappend = time;
-     addWakeUpListener(notify)
+     addWakeUpListener(notify);
      a = consume(a);
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));

@@ -69,6 +69,9 @@ var two = {
 // c.consume(one);
 // c.consume(two);
 
-//n.notify({ time: 1626184659000, other: "data"});
-b.beautifySet([ one,two]);
+n.notify({ time: 1626184659000, other: "data0"});
+n.notify({ time: 1626183659000, other: "data1"});
+n.notify({ time: 1626185659000, other: "data2"});
+n.notify({ time: 1626188659000, other: "data3"});
+//b.beautifySet([ one,two]);
 console.log(one);

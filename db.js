@@ -19,11 +19,12 @@ const options = {
 const client = new CosmosClient(options)
 
 
- async function queryContainer() {
+ async function queryContainer(offsethours) {
 
     console.log(`Querying container:\n${config.container.id}`)
 
-    var startdate = Date.now() - 604800000;
+
+    var startdate = offsethours==0 ? Date.now() - 604800000 : Date.now() - (offsethours*1000*60*60);
 
     // query to return all children in a family
     // Including the partition key value of country in the WHERE filter results in a more efficient query
