@@ -23,8 +23,8 @@ async function send(message) {
     text: "Hnkr Wakeup "+ message.body, // plain text body
   });
 
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  console.log("Message sent: %s accepted? %s", info.messageId, info.accepted);
+  //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
 }
