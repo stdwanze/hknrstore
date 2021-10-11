@@ -1,0 +1,7 @@
+GET http://localhost:3000/states/json/24?authsecret=BD7Cf3P6z7HbaVZdSAKCFmEq6YBGLGNSveyBcsExH4vBmH3YVuBRA5RbD3HPHvDgT7dUej4jXjy2KpJWuGNsACqAF2dKhq2MPnC5
+
+
+###
+
+GET https://hnkrstate.azurewebsites.net/states/json/24
+authsecret: BD7Cf3P6z7HbaVZdSAKCFmEq6YBGLGNSveyBcsExH4vBmH3YVuBRA5RbD3HPHvDgT7dUej4jXjy2KpJWuGNsACqAF2dKhq2MPnC5

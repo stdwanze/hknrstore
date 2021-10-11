@@ -6,8 +6,15 @@ const { toCosmosTime } = require("./utils");
 const { consume , addWakeUpListener} = require("./cache");
 const { notify } = require("./notify");
 const { beautifySet } = require('./beautify');
+const { authenticate, authorize, cors } = require('./auth');
+
+let port = process.env.PORT ? process.env.PORT : 3000;
+
 polka()
     .use(json())
+    .use(authenticate)
+    .use(authorize)
+    .use(cors)
   .get('/states/', async (req, res) => {
     const r = await queryContainer();
 
@@ -37,7 +44,7 @@ polka()
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
   })
-  .listen(3000, err => {
+  .listen(port, err => {
     if (err) throw err;
-    console.log(`> Running on localhost:3000`);
+    console.log(`> Running on localhost:`+port);
   });

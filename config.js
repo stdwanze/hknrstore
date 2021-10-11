@@ -5,12 +5,16 @@ const cfloader = require('config');
 
 const azureLoc = cfloader.get('Azure');
 const mail = cfloader.get('Mail');
+const auth = cfloader.get('Auth');
 
 config.endpoint = azureLoc.endpoint ;
 config.key = azureLoc.key;
 config.mailuser = mail.user;
 config.mailpw = mail.password;
 config.mailto = mail.to;
+config.authtoken = auth.token;
+
+
 config.database = {
   id: 'hnkrstates'
 }

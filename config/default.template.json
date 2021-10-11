@@ -8,6 +8,10 @@
         "user": "",
         "password" : "",
         "to": ""
+    },
+    "Auth":
+    {
+        "token": ""
     }
 
 }
