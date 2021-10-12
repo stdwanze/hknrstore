@@ -19,20 +19,20 @@ async function send(message) {
   let info = await transporter.sendMail({
     from: config.mailuser, // sender address
     to: config.mailto,  // list of receivers
-    subject: "Hnkr "+ message.when, // Subject line
-    text: "Hnkr Wakeup "+ message.body, // plain text body
+    subject: "Hnkr "+message.header + " - "+ message.when, // Subject line
+    text: "Hnkr "+message.header + " - "+ message.body, // plain text body
   });
 
-  console.log("Message sent: %s accepted? %s", info.messageId, info.accepted);
+  console.log("Message sent: %s - accepted? %s", info.messageId, info.accepted);
   //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
 }
-function notify(state){
+function notify(state, what){
 
     var d = new Date(state.time);
     var formatable = moment(d);
-    send({ when: formatable.format("HH:mm"), body: JSON.stringify(state)}).catch(console.error);
+    send({header: what, when: formatable.format("HH:mm"), body: JSON.stringify(state)}).catch(console.error);
 
 }
 
