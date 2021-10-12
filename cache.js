@@ -24,14 +24,24 @@ function checkForWakeUp(state){
     if(lastValue != null){
         if( (state.time-lastValue.time) / 60000 > 10 ) { // if 10 minutes passed
             if(wakeUpListener != null){
-                wakeUpListener(state);
+                wakeUpListener(state,"WakeUp");
             }
         }
     }
 
 }
+function checkForChargeEnd(state){
+    if(lastValue != null){
+        if( isNotCharging(state) && !isNotCharging(lastValue) ) { //last WasCharging and now end
+            if(wakeUpListener != null){
+                wakeUpListener(state,"ChargeEnd");
+            }
+        }
+    }
+}
 function consume(statetoSet){
     checkForWakeUp(statetoSet);
+    checkForChargeEnd(statetoSet);
     if(isNew(statetoSet))
     {
         lastValue = statetoSet;
