@@ -1,4 +1,4 @@
-
+const { toJSTime} = require("./utils");
 
 
 var lastValue = null;
@@ -39,11 +39,30 @@ function checkForChargeEnd(state){
         }
     }
 }
+
+function guestimateDriveStatus(state){
+
+    try{
+        var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
+        var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
+
+        if((base-plugstate) / (1000*60) > 2) // bigger 2 minutes
+        {
+            state.state = "moving";
+        }
+
+    }
+    catch(e){
+        console.error(e);
+    }
+    return state;
+}
 function consume(statetoSet){
     checkForWakeUp(statetoSet);
     checkForChargeEnd(statetoSet);
     if(isNew(statetoSet))
     {
+        statetoSet = guestimateDriveStatus(statetoSet);
         lastValue = statetoSet;
         return statetoSet;
     }

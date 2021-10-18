@@ -68,10 +68,16 @@ var two = {
 
 // c.consume(one);
 // c.consume(two);
-
+/*
 n.notify({ time: 1626184659000, other: "data0"});
 n.notify({ time: 1626183659000, other: "data1"});
 n.notify({ time: 1626185659000, other: "data2"});
 n.notify({ time: 1626188659000, other: "data3"});
 //b.beautifySet([ one,two]);
 console.log(one);
+
+*/
+var date = "2021-10-18T09:09:19Z";
+var date2 = "2021-10-18T08:29:32Z";
+
+console.log( (u.toJSTime(date)-u.toJSTime(date2)) / (1000*60));
