@@ -42,13 +42,16 @@ function checkForChargeEnd(state){
 
 function guestimateDriveStatus(state){
 
-    try{
-        var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
-        var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
 
-        if((base-plugstate) / (1000*60) > 2) // bigger 2 minutes
-        {
-            state.state = "moving";
+    try{
+        if(isNotCharging(state)){
+            var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
+            var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
+
+            if((base-plugstate) / (1000*60) > 2) // bigger 2 minutes
+            {
+                state.state = "moving";
+            }
         }
 
     }
