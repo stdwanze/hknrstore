@@ -4,7 +4,8 @@ const { toJSTime} = require("./utils");
 var lastValue = null;
 var wakeUpListener = null;
 function isNotCharging(statetoSet){
-    if(statetoSet.state == "charging") return false;
+    if(statetoSet.state == "charging" ||
+     statetoSet.plugstatus.plugConnectionState != "disconnected") return false;
     return true;
 }
 
@@ -75,5 +76,5 @@ function addWakeUpListener(listener){
     wakeUpListener = listener;
 }
 module.exports = {
-    consume, addWakeUpListener
+    consume, addWakeUpListener, guestimateDriveStatus
 }
