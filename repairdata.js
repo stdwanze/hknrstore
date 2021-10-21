@@ -4,17 +4,18 @@ const { guestimateDriveStatus } = require('./cache');
 
 
 
-const hours = 200 * 24 ;
+const hours = 3 * 24 ;
 queryContainer(hours).then((r)=> {
     console.log(r.length + " results loaded");
     var changed = 0;
     r.forEach((s)=>{
-        var oldstate = s.state;
-        s = guestimateDriveStatus(s);
-        if(oldstate != "moving" && s.state == "moving"){
-            changed++;
-         //   upSert(s);
+        if(s.state == "moving" && s.plugstatus.plugConnectionState == "connected")
+        {
+            s.state = "charging"
+            changed++
         }
+        upSert(s);
+
     });
 
     console.log(changed + " will be changed");
