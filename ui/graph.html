@@ -1,0 +1,105 @@
+<html>
+    <head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+</style>
+</head>
+<body>
+    <button onclick="moveback()">Back</button>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <div id="loader" class="loader"></div>
+    <script>
+        let start = 0;
+        let myChart = null;
+        let loadervisible = true;
+        function toggleLoader(){
+
+           if(loadervisible) document.getElementById("loader").style.visibility  = "visible" ;
+           else document.getElementById("loader").style.visibility = "hidden" ;
+            loadervisible = !loadervisible;
+        }
+        function moveback(){
+            myChart.destroy();
+            start = start+24;
+            loaddata().then(renderGraph);
+        }
+        function loaddata(){
+            toggleLoader();
+            var prom = new Promise((resolve, reject) => {
+                fetch('http://<url>/states/json/24?offset='+start+'&authsecret=<token>')
+                .then(response => response.json()).then((r)=> {
+                    var retData = { labels : null, socs : null, colors : null};
+
+                    retData.labels = r.map( (i) => i.batterystatus.carCapturedTimestamp );
+                    retData.socs = r.map((i) => { return   { t: i.batterystatus.carCapturedTimestamp , y:i.batterystatus.currentSOC_pct, mode: i.state } ;} );
+                    retData.colors = [retData.socs.length];
+
+                    for (var i  = 0; i < retData.socs.length; i++)
+                    {
+
+                        retData.colors[i] = retData.socs[i].mode == "moving" ?  'rgba(255, 99, 132, 1)' :  retData.socs[i].mode == "charging" ?  'rgba(54, 162, 235, 1)' :  'rgba(75, 192, 192, 1)';
+                    }
+                    resolve(retData);
+
+                });
+            });
+            return prom;
+        };
+
+        function renderGraph( graphdata){
+            var response = null;
+            var ctx = document.getElementById("myChart").getContext("2d");
+
+            myChart = new Chart(ctx, {
+            type: 'line',
+            options: {
+                elements: {
+                       line: {
+                            tension: 0
+                        }
+                },
+                bezierCurve : false,
+                scales: {
+                xAxes: [{
+                    type: 'time',
+                }]
+                }
+            },
+            data: {
+                labels: graphdata.labels, //; ["2015-03-15T13:03:00Z", "2015-03-25T13:02:00Z", "2015-04-25T14:12:00Z"],
+                datasets: [{
+                label: 'SoC',
+                data: graphdata.socs,
+                backgroundColor: [
+                    'rgba(255,99,132,0.2)',
+
+                ],
+                borderColor:graphdata.colors,
+                borderWidth: 1
+                }]
+            }
+            });
+            toggleLoader();
+        }
+
+        loaddata().then(renderGraph);
+
+
+  </script>
+</body>
+</html>

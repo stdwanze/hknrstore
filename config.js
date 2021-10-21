@@ -7,6 +7,8 @@ const azureLoc = cfloader.get('Azure');
 const mail = cfloader.get('Mail');
 const auth = cfloader.get('Auth');
 
+const ui = cfloader.get('Ui');
+
 config.endpoint = azureLoc.endpoint ;
 config.key = azureLoc.key;
 config.mailuser = mail.user;
@@ -14,6 +16,8 @@ config.mailpw = mail.password;
 config.mailto = mail.to;
 config.authtoken = auth.token;
 
+config.uiPath = ui.path;
+config.uiFiles = ui.files;
 
 config.database = {
   id: 'hnkrstates'
