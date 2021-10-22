@@ -20,25 +20,36 @@ function isNew(statetoSet){
 
     return true;
 }
-function checkForWakeUp(state){
+function setLastValue(s){
+    lastValue = s;
+}
 
+function check(predicate,state,message){
     if(lastValue != null){
-        if( (state.time-lastValue.time) / 60000 > 10 ) { // if 10 minutes passed
+        if( predicate())
             if(wakeUpListener != null){
-                wakeUpListener(state,"WakeUp");
+                wakeUpListener(state,message);
             }
         }
     }
 
+
+function checkForWakeUp(state){
+    check(()=> (state.time-lastValue.time) / 60000 > 10,state,"WakeUp");
 }
 function checkForChargeEnd(state){
-    if(lastValue != null){
-        if( isNotCharging(state) && !isNotCharging(lastValue) ) { //last WasCharging and now end
-            if(wakeUpListener != null){
-                wakeUpListener(state,"ChargeEnd");
-            }
-        }
-    }
+    check(()=> isNotCharging(state) && !isNotCharging(lastValue),state,"ChargeEnd");
+
+}
+
+function checkForMoving(state){
+    check(()=>  lastValue.state != "moving" && state.state == "moving",state,"Moving");
+
+}
+
+function checkForParked(state){
+    check(()=>  lastValue.state == "moving" && state.state != "parked",state,"Parked");
+
 }
 
 function guestimateDriveStatus(state){
@@ -67,6 +78,8 @@ function consume(statetoSet){
     if(isNew(statetoSet))
     {
         statetoSet = guestimateDriveStatus(statetoSet);
+        checkForMoving(statetoSet);
+        checkForParked(statetoSet);
         lastValue = statetoSet;
         return statetoSet;
     }
@@ -76,5 +89,13 @@ function addWakeUpListener(listener){
     wakeUpListener = listener;
 }
 module.exports = {
-    consume, addWakeUpListener, guestimateDriveStatus
+    consume,
+    addWakeUpListener,
+    guestimateDriveStatus,
+    setLastValue,
+    checkForChargeEnd,
+    checkForMoving,
+    checkForParked,
+    checkForWakeUp
+
 }
