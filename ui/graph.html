@@ -3,6 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.5.0.js"></script>
 <style>
     .loader {
         border: 16px solid #f3f3f3; /* Light grey */
@@ -21,28 +22,52 @@
 </head>
 <body>
     <button onclick="moveback()">Back</button>
+    <div><p data-bind="text: start"></p>
+    <p data-bind="text: end"></p>
+    <p data-bind="text: duration"></p>
+    <p data-bind="text: state"></p>
+    </div>
     <canvas id="myChart" width="400" height="400"></canvas>
     <div id="loader" class="loader"></div>
     <script>
+        Date.prototype.addDays = function(days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
         let start = 0;
         let myChart = null;
         let loadervisible = true;
+
+        var vm = { duration :  ko.observable(24), start :  ko.observable(subtractADay(new Date())), end : ko.observable( new Date()), state: ko.observable("none")};
+
+        ko.applyBindings(vm);
+
+        function subtractADay(date){
+           date= date.addDays(-1);
+            return date;
+        }
         function toggleLoader(){
 
            if(loadervisible) document.getElementById("loader").style.visibility  = "visible" ;
            else document.getElementById("loader").style.visibility = "hidden" ;
-            loadervisible = !loadervisible;
+           loadervisible = !loadervisible;
         }
         function moveback(){
             myChart.destroy();
             start = start+24;
+            vm.start(subtractADay(vm.start()));
+            vm.end(subtractADay(vm.end()));
+
             loaddata().then(renderGraph);
         }
         function loaddata(){
             toggleLoader();
             var prom = new Promise((resolve, reject) => {
-                fetch('http://<url>/states/json/24?offset='+start+'&authsecret=<token>')
+                fetch('https://<url>/states/json/24?offset='+start+'&authsecret=<token>')
                 .then(response => response.json()).then((r)=> {
+                    vm.state(r[r.length-1].state);
                     var retData = { labels : null, socs : null, colors : null};
 
                     retData.labels = r.map( (i) => i.batterystatus.carCapturedTimestamp );
@@ -51,9 +76,10 @@
 
                     for (var i  = 0; i < retData.socs.length; i++)
                     {
-
                         retData.colors[i] = retData.socs[i].mode == "moving" ?  'rgba(255, 99, 132, 1)' :  retData.socs[i].mode == "charging" ?  'rgba(54, 162, 235, 1)' :  'rgba(75, 192, 192, 1)';
                     }
+
+
                     resolve(retData);
 
                 });
@@ -75,9 +101,9 @@
                 },
                 bezierCurve : false,
                 scales: {
-                xAxes: [{
-                    type: 'time',
-                }]
+                    xAxes: [{
+                        type: 'time',
+                    }]
                 }
             },
             data: {
