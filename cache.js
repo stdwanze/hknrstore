@@ -35,20 +35,20 @@ function check(predicate,state,message){
 
 
 function checkForWakeUp(state){
-    check(()=> (state.time-lastValue.time) / 60000 > 10,state,"WakeUp");
+    check(()=> (state.time-lastValue.time) / 60000 > 10,state,"WakeUp - "+state.batterystatus.currentSOC_pct+"%");
 }
 function checkForChargeEnd(state){
-    check(()=> isNotCharging(state) && !isNotCharging(lastValue),state,"ChargeEnd");
+    check(()=> isNotCharging(state) && !isNotCharging(lastValue),state,"ChargeEnd - "+state.batterystatus.currentSOC_pct+"%");
 
 }
 
 function checkForMoving(state){
-    check(()=>  lastValue.state != "moving" && state.state == "moving",state,"Moving");
+    check(()=>  lastValue.state != "moving" && state.state == "moving",state,"Moving - "+state.batterystatus.currentSOC_pct+"%");
 
 }
 
 function checkForParked(state){
-    check(()=>  lastValue.state == "moving" && state.state != "parked",state,"Parked");
+    check(()=>  lastValue.state == "moving" && state.state != "parked",state,"Parked - "+state.batterystatus.currentSOC_pct+"%");
 
 }
 
