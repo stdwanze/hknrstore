@@ -48,7 +48,7 @@ function checkForMoving(state){
 }
 
 function checkForParked(state){
-    check(()=>  lastValue.state == "moving" && state.state != "parked",state,"Parked - "+state.batterystatus.currentSOC_pct+"%");
+    check(()=>  lastValue.state == "moving" && state.state == "parked",state,"Parked - "+state.batterystatus.currentSOC_pct+"%");
 
 }
 
