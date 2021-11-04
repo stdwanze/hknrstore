@@ -9,12 +9,17 @@ function isNotCharging(statetoSet){
     return true;
 }
 
+function isNotChargingForIsNew(statetoSet){
+    if(statetoSet.state == "charging" ) return false;
+    return true;
+}
+
 function isNew(statetoSet){
 
     if(lastValue == null){
         return true;
     }
-    else if( statetoSet.state == lastValue.state && statetoSet.whenhappend == lastValue.whenhappend && isNotCharging(statetoSet)){
+    else if( statetoSet.state == lastValue.state && statetoSet.whenhappend == lastValue.whenhappend && isNotChargingForIsNew(statetoSet)){
         return false;
     }
 
@@ -60,7 +65,7 @@ function guestimateDriveStatus(state){
             var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
             var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
 
-            if((base-plugstate) / (1000*60) > 2) // bigger 2 minutes
+            if((base-plugstate) / (1000) > 20) // bigger 20 seconds
             {
                 state.state = "moving";
             }
@@ -96,6 +101,7 @@ module.exports = {
     checkForChargeEnd,
     checkForMoving,
     checkForParked,
-    checkForWakeUp
+    checkForWakeUp,
+    isNew
 
 }
