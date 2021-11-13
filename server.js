@@ -11,7 +11,7 @@ const { getlastvalue,savelastvalue } = require('./lastvaluemanager');
 polka()
     .use(json())
     .get('/lastval', (req,res) =>{
-       res.end(getlastvalue());
+       res.end(JSON.stringify(getlastvalue()));
     })
   .get('/states/', async (req, res) => {
     const r = await queryContainer();
