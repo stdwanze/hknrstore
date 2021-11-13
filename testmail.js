@@ -2,7 +2,7 @@ var n = require("./notify");
 var c = require("./cache");
 var u = require("./utils");
 var b = require("./beautify");
-
+var l = require("./lastvaluemanager");
 
 var one = {
   "chargingstatus": {
@@ -67,8 +67,7 @@ n.notify({ time: 1626188659000, other: "data3"});
 console.log(one);
 
 */
-c.setLastValue(two);
-c.checkForChargeEnd(two);
-c.checkForChargeStart(one);
 
-console.log(c.isNew(one));
+l.savelastvalue(one);
+
+console.log(l.getlastvalue());

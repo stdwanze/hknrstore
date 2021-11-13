@@ -3,11 +3,16 @@ const { json } = require('body-parser');
 
 const { queryContainer, upSert} = require('./db');
 const { toCosmosTime } = require("./utils");
-const { consume , addWakeUpListener} = require("./cache");
+const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
 const { beautifySet } = require('./beautify');
+const { getlastvalue,savelastvalue } = require('./lastvaluemanager');
+
 polka()
     .use(json())
+    .get('/lastval', (req,res) =>{
+       res.end(getlastvalue());
+    })
   .get('/states/', async (req, res) => {
     const r = await queryContainer();
 
@@ -33,6 +38,7 @@ polka()
      const time =  toCosmosTime(new Date(a.time))
      a.whenhappend = time;
      addWakeUpListener(notify);
+     savelastvalue(a);
      a = consume(a);
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
