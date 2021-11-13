@@ -8,7 +8,11 @@ function isNotCharging(statetoSet){
      statetoSet.plugstatus.plugConnectionState != "disconnected") return false;
     return true;
 }
+function climateIsOn(state){
+    if(state.climatestatus.climatisationState != "off") return true;
+    else return false;
 
+}
 function isNotChargingForIsNew(statetoSet){
     if(statetoSet.state == "charging" ) return false;
     return true;
@@ -23,7 +27,7 @@ function isNew(statetoSet){
         if(statetoSet.climatestatus.climatisationState != lastValue.climatestatus.climatisationState ){
             return true;
         }
-        
+
         return false;
     }
 
@@ -69,7 +73,9 @@ function guestimateDriveStatus(state){
 
             if((base-plugstate) / (1000) > 120) // bigger 20 seconds
             {
-                state.state = "moving";
+                if(!climateIsOn(state)) {
+                    state.state = "moving";
+                }
             }
         }
 
