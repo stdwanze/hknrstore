@@ -20,6 +20,10 @@ function isNew(statetoSet){
         return true;
     }
     else if( statetoSet.state == lastValue.state && statetoSet.whenhappend == lastValue.whenhappend && isNotChargingForIsNew(statetoSet)){
+        if(statetoSet.climatestatus.climatisationState != lastValue.climatestatus.climatisationState ){
+            return true;
+        }
+        
         return false;
     }
 
