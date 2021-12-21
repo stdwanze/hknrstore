@@ -23,7 +23,7 @@ function isNew(statetoSet){
     if(lastValue == null){
         return true;
     }
-    else if( statetoSet.state == lastValue.state && statetoSet.whenhappend == lastValue.whenhappend && isNotChargingForIsNew(statetoSet)){
+    else if( statetoSet.whenhappend == lastValue.whenhappend){
         if(statetoSet.climatestatus.climatisationState != lastValue.climatestatus.climatisationState ){
             return true;
         }
