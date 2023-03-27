@@ -7,6 +7,7 @@ const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
 const { beautifySet } = require('./beautify');
 const { getlastvalue,savelastvalue } = require('./lastvaluemanager');
+const { enterNewConsumption, getConsumption} = require("./consumptionpertime");
 
 polka()
     .use(json())
@@ -40,6 +41,10 @@ polka()
      addWakeUpListener(notify);
      savelastvalue(a);
      a = consume(a);
+     if(a != null){
+      enterNewConsumption(a);
+      a.currentConsumptionInPercent = getConsumption();
+    }
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
   })
