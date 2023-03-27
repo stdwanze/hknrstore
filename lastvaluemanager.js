@@ -2,19 +2,25 @@
 const fs = require('fs');
 
 
-function savelastvalue(val){
+function savelastvalueWn(val,valname){
 
     try {
-        fs.writeFileSync("lastvalue.json",JSON.stringify(val));
+        fs.writeFileSync(valname+".json",JSON.stringify(val));
     } catch (error) {
         console.error(error);
     }
 
 }
+function savelastvalue(){
+    return savelastvalueWn("lastvalue");
+}
 function getlastvalue(){
+     return getlastvalueWn("lastvalue");
+}
+function getlastvalueWn(valname){
 
     try {
-        var content = fs.readFileSync("lastvalue.json");
+        var content = fs.readFileSync(valname+".json");
         var jsobj = JSON.parse(content);
         return jsobj;
     } catch (error) {
@@ -26,5 +32,7 @@ function getlastvalue(){
 
 module.exports = {
     savelastvalue,
-    getlastvalue
+    getlastvalue,
+    savelastvalueWn,
+    getlastvalueWn
 }

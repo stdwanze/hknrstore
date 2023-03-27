@@ -6,7 +6,7 @@ const { toCosmosTime } = require("./utils");
 const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
 const { beautifySet } = require('./beautify');
-const { getlastvalue,savelastvalue } = require('./lastvaluemanager');
+const { getlastvalue,savelastvalue,getlastvalueWn,savelastvalueWn } = require('./lastvaluemanager');
 const { enterNewConsumption, getConsumption} = require("./consumptionpertime");
 
 polka()
@@ -23,6 +23,9 @@ polka()
     })
 
     res.end(result);
+  })
+  .get('/consumption',(req,res)=> {
+    res.end(JSON.stringify(getlastvalueWn("consumption")));
   })
   .get('/states/json/:offset?', async (req, res) => {
     let { offset } = req.params;
@@ -44,6 +47,7 @@ polka()
      if(a != null){
       enterNewConsumption(a);
       a.currentConsumptionInPercent = getConsumption();
+      savelastvalueWn("consumption",{Consumption: a.currentConsumptionInPercent});
     }
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
