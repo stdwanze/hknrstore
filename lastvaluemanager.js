@@ -11,8 +11,8 @@ function savelastvalueWn(val,valname){
     }
 
 }
-function savelastvalue(){
-    return savelastvalueWn("lastvalue");
+function savelastvalue(val){
+    return savelastvalueWn(val,"lastvalue");
 }
 function getlastvalue(){
      return getlastvalueWn("lastvalue");

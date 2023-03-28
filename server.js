@@ -47,7 +47,7 @@ polka()
      if(a != null){
       enterNewConsumption(a);
       a.currentConsumptionInPercent = getConsumption();
-      savelastvalueWn("consumption",{Consumption: a.currentConsumptionInPercent});
+      savelastvalueWn({Consumption: a.currentConsumptionInPercent},"consumption");
     }
      if(a != null )await upSert(a);
      res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
