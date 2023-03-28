@@ -3,6 +3,7 @@ let lastEntry = null;
 
 
 function emptyStack(){
+    console.log("empty Stack");
     stack = [];
 }
 function registerNewEntry(val,date){
@@ -25,7 +26,7 @@ function enterNewConsumption(newstate){
 function getConsumption(){
 
     if(stack.length > 1){
-      return((stack[0].soc-stack[stack.length-1])/
+      return((stack[0].soc-stack[stack.length-1].soc)/
         (stack[stack.length-1].time.getTime()-stack[0].time.getTime()))*60000;
     }
     else return 0;
