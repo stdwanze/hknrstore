@@ -46,6 +46,21 @@ function beautifySet(states){
     });
 }
 
+function selectConsumption(states){
+
+    let ret = [];
+    states.forEach(element => {
+       let ne = {
+            consumptionPercentPerMin : element.currentConsumptionInPercent,
+            whenhappend: element.whenhappend
+       }
+       ret.push(ne);
+    });
+    return ret;
+
+}
+
 module.exports = {
-    beautifySet
+    beautifySet,
+    selectConsumption
 }

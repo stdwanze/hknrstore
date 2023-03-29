@@ -5,7 +5,7 @@ const { queryContainer, upSert} = require('./db');
 const { toCosmosTime } = require("./utils");
 const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
-const { beautifySet } = require('./beautify');
+const { beautifySet , selectConsumption} = require('./beautify');
 const { getlastvalue,savelastvalue,getlastvalueWn,savelastvalueWn } = require('./lastvaluemanager');
 const { enterNewConsumption, getConsumption} = require("./consumptionpertime");
 
@@ -26,6 +26,15 @@ polka()
   })
   .get('/consumption',(req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("consumption")));
+  })
+  .get('/consumption/json',async (req,res) => {
+    const r = await queryContainer(hours);
+    beautifySet(r);
+    r= selectConsumption(r);
+    var result = JSON.stringify(r);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Content-Type", "application/json");
+    res.end(result);
   })
   .get('/states/json/:offset?', async (req, res) => {
     let { offset } = req.params;
