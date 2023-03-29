@@ -30,7 +30,7 @@ polka()
   .get('/consumption/json/:offset?',async (req,res) => {
     let { offset } = req.params;
     let hours = parseInt(offset) || 0;
-    const r = await queryContainer(hours);
+    let r = await queryContainer(hours);
     beautifySet(r);
     r= selectConsumption(r);
     var result = JSON.stringify(r);
