@@ -8,6 +8,7 @@ const { notify } = require("./notify");
 const { beautifySet , selectConsumption} = require('./beautify');
 const { getlastvalue,savelastvalue,getlastvalueWn,savelastvalueWn } = require('./lastvaluemanager');
 const { enterNewConsumption, getConsumption} = require("./consumptionpertime");
+const { getMod, getDigit, setupOffset} = require("./offsetparser");
 
 polka()
     .use(json())
@@ -29,9 +30,16 @@ polka()
   })
   .get('/consumption/json/:offset?',async (req,res) => {
     let { offset } = req.params;
-    let days = parseInt(offset) || 0;
+    setupOffset(offset);
     var start = new Date();
-    start.setDate(start.getDate() - days);
+
+    switch(getMod()){
+      case "d": start.setDate(start.getDate() - getDigit()); break;
+      case "m": start.setDate(start.getMinutes() - getDigit()); break;
+      case "s": start.setDate(start.getSeconds() - getDigit()); break;
+
+    }
+
 
     let r = await queryContainerRange(start,new Date());
     beautifySet(r);
