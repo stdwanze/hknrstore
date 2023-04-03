@@ -90,5 +90,6 @@ async function queryContainerRange(start,end) {
 
   module.exports = {
       queryContainer,
-      upSert
+      upSert,
+      queryContainerRange
   }

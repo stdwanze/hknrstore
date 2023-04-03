@@ -1,7 +1,7 @@
 const polka = require('polka');
 const { json } = require('body-parser');
 
-const { queryContainer, upSert} = require('./db');
+const { queryContainer, upSert, queryContainerRange} = require('./db');
 const { toCosmosTime } = require("./utils");
 const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
