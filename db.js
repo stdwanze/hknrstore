@@ -28,7 +28,7 @@ async function queryContainerRange(start,end) {
   // query to return all children in a family
   // Including the partition key value of country in the WHERE filter results in a more efficient query
   const querySpec = {
-    query: 'SELECT * from c where (c["time"] >  '+startdate+' && c["time"] <  '+enddate+') ',
+    query: 'SELECT * from c where (c["time"] >  '+startdate+' AND c["time"] <  '+enddate+') ',
   //   parameters: [
   //     {
   //       name: '@country',
