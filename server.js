@@ -29,8 +29,11 @@ polka()
   })
   .get('/consumption/json/:offset?',async (req,res) => {
     let { offset } = req.params;
-    let hours = parseInt(offset) || 0;
-    let r = await queryContainer(hours);
+    let days = parseInt(offset) || 0;
+    var start = new Date();
+    start.setDate(start.getDate() - days);
+
+    let r = await queryContainerRange(start,new Date());
     beautifySet(r);
     r= selectConsumption(r);
     var result = JSON.stringify(r);
