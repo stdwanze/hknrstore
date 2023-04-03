@@ -32,7 +32,7 @@ polka()
     let { offset } = req.params;
     setupOffset(offset);
     var start = new Date();
-    substract(start,getDigit(),getMod());
+    start= substract(start,getDigit(),getMod());
     console.log("startdate: "+start);
 
     let r = await queryContainerRange(start,new Date());
