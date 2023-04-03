@@ -39,7 +39,7 @@ polka()
       case "s": start.setDate(start.getSeconds() - getDigit()); break;
 
     }
-
+    console.log("startdate: "+start);
 
     let r = await queryContainerRange(start,new Date());
     beautifySet(r);

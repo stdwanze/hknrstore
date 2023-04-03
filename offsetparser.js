@@ -14,6 +14,7 @@ function setupOffset(input){
     if(md.length > 0) digitres = md[0];
     if(mod.length > 0) mdres = mod[0];
     
+    console.log("d: "+digitres + " mod: "+mdres)
 }
 
 function getMod(){
