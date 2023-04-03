@@ -5,7 +5,7 @@ let digitres = 0;
 
 function setupOffset(input){
 
-    let digits = /\d+/g;
+    let digit = /\d+/g;
     let modifier = /[dms]/g;
     
     let md = input.match(digit);
