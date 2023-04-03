@@ -8,8 +8,8 @@ function setupOffset(input){
     let digits = /\d+/g;
     let modifier = /[dms]/g;
     
-    let md = digits.match(input);
-    let mod = modifier.match(input);
+    let md = input.match(digit);
+    let mod = input.match(modifier);
 
     if(md.length > 0) digitres = md[0];
     if(mod.length > 0) mdres = mod[0];
