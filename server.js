@@ -2,7 +2,7 @@ const polka = require('polka');
 const { json } = require('body-parser');
 
 const { queryContainer, upSert, queryContainerRange} = require('./db');
-const { toCosmosTime } = require("./utils");
+const { toCosmosTime, substract } = require("./utils");
 const { consume , addWakeUpListener, setLastValue} = require("./cache");
 const { notify } = require("./notify");
 const { beautifySet , selectConsumption} = require('./beautify');
@@ -32,13 +32,7 @@ polka()
     let { offset } = req.params;
     setupOffset(offset);
     var start = new Date();
-
-    switch(getMod()){
-      case "d": start.setDate(start.getDate() - getDigit()); break;
-      case "m": start.setDate(start.getMinutes() - getDigit()); break;
-      case "s": start.setDate(start.getSeconds() - getDigit()); break;
-
-    }
+    substract(start,getDigit(),getMod());
     console.log("startdate: "+start);
 
     let r = await queryContainerRange(start,new Date());
