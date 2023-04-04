@@ -28,14 +28,19 @@ polka()
   .get('/consumption',(req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("consumption")));
   })
-  .get('/consumption/json/:offset?',async (req,res) => {
-    let { offset } = req.params;
-    setupOffset(offset);
+  .get('/consumption/json/:offsetstart?/:offsetend?',async (req,res) => {
+    let { offsetstart,offsetend } = req.params;
+    setupOffset(offsetstart);
     var start = new Date();
     start= substract(start,getDigit(),getMod());
     console.log("startdate: "+start);
 
-    let r = await queryContainerRange(start,new Date());
+    setupOffset(offsetend);
+    var end = new Date();
+    end= substract(end,getDigit(),getMod());
+    console.log("endDate: "+end);
+
+    let r = await queryContainerRange(start,end);
     beautifySet(r);
     r= selectConsumption(r);
     var result = JSON.stringify(r);
