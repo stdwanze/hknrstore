@@ -65,24 +65,23 @@ function checkForParked(state){
 
 function guestimateDriveStatus(state){
 
+    // try{
+    //     if(isNotCharging(state)){
+    //         var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
+    //         var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
 
-    try{
-        if(isNotCharging(state)){
-            var base = toJSTime(state.chargingstatus.carCapturedTimestamp);
-            var plugstate = toJSTime(state.plugstatus.carCapturedTimestamp);
+    //         if((base-plugstate) / (1000) > 120) // bigger 20 seconds
+    //         {
+    //             if(!climateIsOn(state)) {
+    //                 state.state = "moving";
+    //             }
+    //         }
+    //     }
 
-            if((base-plugstate) / (1000) > 120) // bigger 20 seconds
-            {
-                if(!climateIsOn(state)) {
-                    state.state = "moving";
-                }
-            }
-        }
-
-    }
-    catch(e){
-        console.error(e);
-    }
+    // }
+    // catch(e){
+    //     console.error(e);
+    // }
     return state;
 }
 function consume(statetoSet){
