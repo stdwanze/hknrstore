@@ -9,6 +9,7 @@ const { beautifySet , selectConsumption} = require('./beautify');
 const { getlastvalue,savelastvalue,getlastvalueWn,savelastvalueWn } = require('./lastvaluemanager');
 const { enterNewConsumption, getConsumption} = require("./consumptionpertime");
 const { getMod, getDigit, setupOffset} = require("./offsetparser");
+const { handlePos } = require("./postracker");
 
 polka()
     .use(json())
@@ -63,15 +64,20 @@ polka()
      const time =  toCosmosTime(new Date(a.time))
      a.whenhappend = time;
      addWakeUpListener(notify);
-     savelastvalue(a);
-     a = consume(a);
-     if(a != null){
+
+    let oldstack = getlastvalueWn("postracker");
+    oldstack = handlePos(a);
+    savelastvalueWn("postracker");
+
+    savelastvalue(a);
+    a = consume(a);
+    if(a != null){
       enterNewConsumption(a);
       a.currentConsumptionInPercent = getConsumption();
       savelastvalueWn({Consumption: a.currentConsumptionInPercent},"consumption");
     }
-     if(a != null )await upSert(a);
-     res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
+    if(a != null )await upSert(a);
+    res.end('posted '+JSON.stringify(req.body) + " delivered "+ (a != null));
   })
   .listen(3000, err => {
     if (err) throw err;
