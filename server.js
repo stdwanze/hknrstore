@@ -26,6 +26,9 @@ polka()
 
     res.end(result);
   })
+  .get('/pos', (req,res)=> {
+    res.end(JSON.stringify(getlastvalueWn("postracker")));
+  })
   .get('/consumption',(req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("consumption")));
   })
