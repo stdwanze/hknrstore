@@ -13,6 +13,12 @@ function handlePos (val,oldstack){
     if(!(oldstack instanceof Array)) oldstack = [];
     let newVal = extract(val);
     if(newVal != null){
+        if(oldstack.length > 0){ 
+            let last = oldstack[oldstack.length-1];
+            if(last.json.carCapturedTimestamp != newVal.json.carCapturedTimestamp){
+                oldstack.push(newVal);
+            }
+        }else
         oldstack.push(newVal);
     }
     return oldstack;   
