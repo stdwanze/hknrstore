@@ -69,8 +69,8 @@ polka()
      addWakeUpListener(notify);
 
     let oldstack = getlastvalueWn("postracker");
-    oldstack = handlePos(a);
-    savelastvalueWn("postracker");
+    oldstack = handlePos(a,oldstack);
+    savelastvalueWn(oldstack,"postracker");
 
     savelastvalue(a);
     a = consume(a);
