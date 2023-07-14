@@ -29,6 +29,16 @@ polka()
   .get('/pos', (req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("postracker")));
   })
+  .get('/pos/plain', (req,res)=> {
+    
+    let res = "";
+    
+    getlastvalueWn("postracker").forEach((i)=>{
+      res += i.csv + "\n";
+    })
+    
+    res.end(res);
+  })
   .get('/consumption',(req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("consumption")));
   })
