@@ -31,13 +31,13 @@ polka()
   })
   .get('/pos/plain', (req,res)=> {
     
-    let res = "";
+    let ret = "";
     
     getlastvalueWn("postracker").forEach((i)=>{
-      res += i.csv + "\n";
+      ret += i.csv + "\n";
     })
     
-    res.end(res);
+    res.end(ret);
   })
   .get('/consumption',(req,res)=> {
     res.end(JSON.stringify(getlastvalueWn("consumption")));
