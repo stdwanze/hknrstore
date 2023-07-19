@@ -41,7 +41,7 @@ polka()
   })
   .get('/pos/show', (req,res)=>{
     let posarr = getlastvalueWn("postracker");
-    let lastpos = posarr[lposarr.length-1];
+    let lastpos = posarr[posarr.length-1];
     let html = "<html><head><meta http-equiv=\"refresh\" content=\"0; url='https://www.google.de/maps/place/49%C2%B004\'43.0%22N+9%C2%B003\'55.9%22E\'\" /></head><body></body></html>";
     res.end(html);
   })
