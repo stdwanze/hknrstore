@@ -48,7 +48,7 @@ polka()
     let lastVsParkedTime =  (new Date(currVal.whenhappend) - new Date(lastpos.json.carCapturedTimestamp))/(1000*60);
   
 
-    let html = "<html><head><meta http-equiv=\"refresh\" content=\"5; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body><h1>"+ minutesPassed+" min ago and curr State is "+currVal.state+" and diff since +"+lastVsParkedTime+ "mins </h1></body></html>";
+    let html = "<html><head><meta http-equiv=\"refresh\" content=\"5; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body><h1>"+ minutesPassed+" min ago -- CurrState: "+currVal.state+" -- diff since +"+lastVsParkedTime+ "mins </h1></body></html>";
     res.end(html);
   })
   .get('/consumption',(req,res)=> {
