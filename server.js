@@ -40,9 +40,13 @@ polka()
     res.end(ret);
   })
   .get('/pos/show', (req,res)=>{
+    let currVal = getlastvalue();
     let posarr = getlastvalueWn("postracker");
     let lastpos = posarr[posarr.length-1];
-    let html = "<html><head><meta http-equiv=\"refresh\" content=\"0; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body></body></html>";
+
+    let minutesPassed = (new Date(lastpos.json.carCapturedTimestamp) - new Date(currVal.whenhappend))/(1000*60);
+
+    let html = "<html><head><meta http-equiv=\"refresh\" content=\"5; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body><h1>"+ minutesPassed+" ago</h1></body></html>";
     res.end(html);
   })
   .get('/consumption',(req,res)=> {
