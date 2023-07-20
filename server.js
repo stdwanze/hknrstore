@@ -44,9 +44,11 @@ polka()
     let posarr = getlastvalueWn("postracker");
     let lastpos = posarr[posarr.length-1];
 
-    let minutesPassed = (new Date(lastpos.json.carCapturedTimestamp) - new Date(currVal.whenhappend))/(1000*60);
+    let minutesPassed = (Date.now() -new Date(lastpos.json.carCapturedTimestamp))/(1000*60);
+    let lastVsParkedTime =  (new Date(currVal.whenhappend) - new Date(lastpos.json.carCapturedTimestamp))/(1000*60);
+  
 
-    let html = "<html><head><meta http-equiv=\"refresh\" content=\"5; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body><h1>"+ minutesPassed+" ago</h1></body></html>";
+    let html = "<html><head><meta http-equiv=\"refresh\" content=\"5; url='https://www.google.de/maps/place/"+lastpos.json.lat+"+"+lastpos.json.lon+"'\" /></head><body><h1>"+ minutesPassed+" min ago and curr State is "+currVal.state+" and diff since +"+lastVsParkedTime+ "mins </h1></body></html>";
     res.end(html);
   })
   .get('/consumption',(req,res)=> {
