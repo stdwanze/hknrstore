@@ -36,7 +36,7 @@ polka()
     getlastvalueWn("postracker").forEach((i)=>{
       ret += i.csv + "\n";
     })
-    res.writeHead(200, { 'Content-Type': "text/plain" });
+    res.writeHead(200, { 'Content-Type': "text/plain", 'Content-Disposition' : "attachment", 'filename' : "MYFILE.csv" });
     res.end(ret, 'utf-8');
     
   })
