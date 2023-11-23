@@ -22,7 +22,7 @@ polka()
         timestmap: lval.chargingstatus.carCapturedTimestamp,
         chargePower: lval.chargingstatus.chargePower_kW,
         soc: lval.batterystatus.currentSOC_pct,
-        range: lval.cruisingRangeElectric_km,
+        range: lval.batterystatus.cruisingRangeElectric_km,
         battemplow: parseFloat(lval.element.temperatureBatteryStatus.temperatureHvBatteryMin_K)-273.15,
         battemphigh: parseFloat(lval.element.temperatureBatteryStatus.temperatureHvBatteryMax_K)-273.15,
         state: lval.state
