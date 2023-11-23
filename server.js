@@ -16,6 +16,21 @@ polka()
     .get('/lastval', (req,res) =>{
        res.end(JSON.stringify(getlastvalue()));
     })
+    .get('/lastvalparsed', (req,res) =>{
+      let lval = getlastvalue();
+      let parsed = {
+        timestmap: lval.chargingstatus.carCapturedTimestamp,
+        chargePower: lval.chargingstatus.chargePower_kW,
+        soc: lval.batterystatus.currentSOC_pct,
+        range: lval.cruisingRangeElectric_km,
+        battemplow: parseFloat(lval.temperatureBatteryStatus.temperatureHvBatteryMin_K)-273.15,
+        battemphigh: parseFloat(lval.temperatureBatteryStatus.temperatureHvBatteryMax_K)-273.15,
+        state: lval.state
+
+      }
+
+      res.end(JSON.stringify(parsed));
+   })
   .get('/states/', async (req, res) => {
     const r = await queryContainer();
 
