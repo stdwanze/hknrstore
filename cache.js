@@ -13,6 +13,11 @@ function climateIsOn(state){
     else return false;
 
 }
+function doorsUnlocked(stateToCheck)
+{
+    return stateToCheck.element.accessStatus.overallStatus == "unsafe" ? true : false;
+
+}
 function isNotChargingForIsNew(statetoSet){
     if(statetoSet.state == "charging" ) return false;
     return true;
@@ -48,7 +53,7 @@ function check(predicate,state,message){
 
 
 function checkForWakeUp(state){
-    check(()=> isNotChargingForIsNew(state) && ((state.time-lastValue.time) / 60000 > 10),state,"WakeUp - "+state.batterystatus.currentSOC_pct+"%");
+    check(()=> isNotChargingForIsNew(state) && doorsUnlocked(state) && ((state.time-lastValue.time) / 60000 > 10),state,"WakeUp - "+state.batterystatus.currentSOC_pct+"%");
 }
 function checkForChargeEnd(state){
     check(()=> isNotChargingForIsNew(state) && !isNotChargingForIsNew(lastValue),state,"ChargeEnd - "+state.batterystatus.currentSOC_pct+"%");
